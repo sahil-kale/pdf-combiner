@@ -44,6 +44,10 @@ class PdfCombiner:
         pdf.save(self.output_path)
 
 
-if __name__ == "__main__":
+def main():
     input_data = process_inputs()
     PdfCombiner(input_data)
+
+
+if __name__ == "__main__":
+    main()
