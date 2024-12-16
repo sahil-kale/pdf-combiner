@@ -45,6 +45,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "--skip_wheel", action="store_true", help="Skip generating the wheel."
     )
+    parser.add_argument(
+        "--upload", action="store_true", help="Upload the wheel to PyPI."
+    )
 
     args = parser.parse_args()
 
@@ -56,3 +59,6 @@ if __name__ == "__main__":
 
     if not args.skip_wheel:
         generate_python_wheel(args)
+
+        if args.upload:
+            subprocess.run(["twine", "upload", f"{DEST_DIR}/*", "--verbose"])

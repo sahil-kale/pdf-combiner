@@ -20,7 +20,7 @@ license = { text = "Prosperity 3.0.0" }
 
 [project.urls]
 Homepage = "https://github.com/sahil-kale/pdf-combiner"
-Issues = "hhttps://github.com/sahil-kale/pdf-combiner/issues"
+Issues = "https://github.com/sahil-kale/pdf-combiner/issues"
 
 [project.scripts]
 pdf_combiner = "pdf_combiner.pdf_combiner:main"
