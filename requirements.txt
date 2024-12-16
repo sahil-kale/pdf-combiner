@@ -3,3 +3,4 @@ pikepdf
 pillow
 black
 pyinstaller
+click

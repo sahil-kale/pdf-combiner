@@ -1,6 +1,7 @@
 import argparse
 import util
 import os
+import click
 
 INPUT_EXTENSIONS = (
     ".pdf",
@@ -64,10 +65,13 @@ class PdfInputData:
                 f"Output file already exists: {self.output_path}. Use --override_output_path to overwrite."
             )
 
+        input_files_printable = ", ".join(self.input_files)
+        click.secho(f"Collected input files: {input_files_printable}", fg="green")
+
 
 def process_inputs():
     parser = argparse.ArgumentParser(description="Combine multiple PDFs into one.")
-    parser.add_argument("--output_path", help="Path to the output PDF.")
+    parser.add_argument("-o", "--output_path", help="Path to the output PDF.")
     parser.add_argument(
         "-r",
         "--recursive",
@@ -76,7 +80,6 @@ def process_inputs():
     )
     parser.add_argument("input_paths", nargs="+", help="Paths to the input PDFs.")
     parser.add_argument(
-        "-o",
         "--override_output_path",
         action="store_true",
         help="Override the output file if it exists",
@@ -87,5 +90,8 @@ def process_inputs():
     # make the output path absolute
     if args.output_path:
         args.output_path = os.path.abspath(args.output_path)
+
+    # make the input paths absolute
+    args.input_paths = [os.path.abspath(path) for path in args.input_paths]
 
     return PdfInputData(args)
