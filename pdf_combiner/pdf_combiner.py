@@ -1,5 +1,5 @@
-from input import process_inputs, PdfInputData
-from image_to_pdf import image_to_pdf
+from pdf_combiner.image_to_pdf import image_to_pdf
+from pdf_combiner.input import process_inputs, PdfInputData
 import pikepdf
 import os
 import click

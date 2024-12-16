@@ -1,8 +1,8 @@
-pytest
 pikepdf
 pillow
+click
+pytest
 black
 pyinstaller
-click
 build
 twine

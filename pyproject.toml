@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pdf_combiner"
+version = "0.0.1"
+authors = [
+  { name="Sahil Kale" },
+]
+description = "PDF Combining Utility"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "pikepdf",
+    "pillow",
+    "click",
+]
+license = { text = "Prosperity 3.0.0" }
+
+[project.urls]
+Homepage = "https://github.com/sahil-kale/pdf-combiner"
+Issues = "hhttps://github.com/sahil-kale/pdf-combiner/issues"
+
+[project.scripts]
+pdf_combiner = "pdf_combiner.pdf_combiner:main"
+
+[tool.setuptools.packages.find]
+where = ["."]

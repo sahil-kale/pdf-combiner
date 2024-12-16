@@ -1,5 +1,5 @@
 import argparse
-import util
+from pdf_combiner import util
 import os
 import click
 

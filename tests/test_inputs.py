@@ -1,4 +1,4 @@
-import input
+from pdf_combiner.input import PdfInputData, PdfInputError
 import shutil
 import os
 
@@ -32,13 +32,13 @@ def test_no_output_file_means_current_dir_is_output_file():
         recursive = False
         override_output_path = False
 
-    PdfInputData = input.PdfInputData(FakeArgs)
+    input_data = PdfInputData(FakeArgs)
 
     substring = (
         f"converted_output_{os.path.basename(TEST_IMG[:TEST_IMG.rfind('.')])}.pdf"
     )
 
-    assert substring in PdfInputData.output_path
+    assert substring in input_data.output_path
 
 
 def test_recursive_dir_filtering():
@@ -60,9 +60,9 @@ def test_recursive_dir_filtering():
         recursive = True
         override_output_path = False
 
-    PdfInputData = input.PdfInputData(FakeArgs)
+    input_data = PdfInputData(FakeArgs)
 
-    assert PdfInputData.input_files == [f"{fake_dir}/{name}" for name in input_names]
+    assert input_data.input_files == [f"{fake_dir}/{name}" for name in input_names]
 
     shutil.rmtree(fake_dir, ignore_errors=True)
 
@@ -81,9 +81,9 @@ def test_passing_in_dir_without_recursive():
 
     # should raise a PdfInputError
     try:
-        PdfInputData = input.PdfInputData(FakeArgs)
+        input_data = PdfInputData(FakeArgs)
         assert False
-    except input.PdfInputError:
+    except PdfInputError:
         assert True
 
 
@@ -95,9 +95,9 @@ def test_file_not_existing():
 
     # should raise a PdfInputError
     try:
-        PdfInputData = input.PdfInputData(FakeArgs)
+        input_data = PdfInputData(FakeArgs)
         assert False
-    except input.PdfInputError:
+    except PdfInputError:
         assert True
 
 
@@ -115,9 +115,9 @@ def test_already_existing_output_file():
         override_output_path = False
 
     try:
-        PdfInputData = input.PdfInputData(FakeArgs)
+        input_data = PdfInputData(FakeArgs)
         assert False
-    except input.PdfInputError:
+    except PdfInputError:
         assert True
 
     os.remove(fake_output_path)
@@ -135,9 +135,9 @@ def test_output_path_is_not_pdf():
         override_output_path = False
 
     try:
-        PdfInputData = input.PdfInputData(FakeArgs)
+        input_data = PdfInputData(FakeArgs)
         assert False
-    except input.PdfInputError:
+    except PdfInputError:
         assert True
 
 
@@ -156,6 +156,6 @@ def test_arg_override_for_output_path():
         recursive = False
         override_output_path = True
 
-    input_data = input.PdfInputData(FakeArgs)
+    input_data = PdfInputData(FakeArgs)
 
     assert input_data.output_path == fake_output_path

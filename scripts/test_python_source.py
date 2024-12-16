@@ -10,7 +10,6 @@ if __name__ == "__main__":
 
     parent_dir = os.path.abspath(os.path.join("tests", os.pardir))
     os.sys.path.append(parent_dir)
-    os.sys.path.append(parent_dir + "/pdf_combiner")
 
     # Run pytest programmatically to enable breakpoints
     pytest_args = test_files  # this passes the test files to pytest
