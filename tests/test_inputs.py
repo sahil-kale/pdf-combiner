@@ -30,6 +30,7 @@ def test_no_output_file_means_current_dir_is_output_file():
         input_paths = input_names
         output_path = None
         recursive = False
+        override_output_path = False
 
     PdfInputData = input.PdfInputData(FakeArgs)
 
@@ -57,6 +58,7 @@ def test_recursive_dir_filtering():
         input_paths = [fake_dir]
         output_path = "output.pdf"
         recursive = True
+        override_output_path = False
 
     PdfInputData = input.PdfInputData(FakeArgs)
 
@@ -75,6 +77,7 @@ def test_passing_in_dir_without_recursive():
         input_paths = [fake_dir]
         output_path = "output.pdf"
         recursive = False
+        override_output_path = False
 
     # should raise a PdfInputError
     try:
@@ -109,6 +112,7 @@ def test_already_existing_output_file():
         input_paths = input_names
         output_path = fake_output_path
         recursive = False
+        override_output_path = False
 
     try:
         PdfInputData = input.PdfInputData(FakeArgs)
@@ -128,9 +132,30 @@ def test_output_path_is_not_pdf():
         input_paths = input_names
         output_path = fake_output_path
         recursive = False
+        override_output_path = False
 
     try:
         PdfInputData = input.PdfInputData(FakeArgs)
         assert False
     except input.PdfInputError:
         assert True
+
+
+def test_arg_override_for_output_path():
+    # create fake args object
+    input_names = [TEST_IMG]
+    fake_output_path = f"{TEST_PLAYGROUND}/output.pdf"
+
+    # make the output file
+    with open(fake_output_path, "w") as f:
+        f.write("")
+
+    class FakeArgs:
+        input_paths = input_names
+        output_path = fake_output_path
+        recursive = False
+        override_output_path = True
+
+    input_data = input.PdfInputData(FakeArgs)
+
+    assert input_data.output_path == fake_output_path

@@ -21,9 +21,8 @@ class PdfCombiner:
 
         self.combine_pdfs()
 
-    def __del__(self):
-        for path in self.tmp_paths:
-            os.remove(path)
+        for tmp_path in self.tmp_paths:
+            os.remove(tmp_path)
 
     def combine_pdfs(self):
         pdf = pikepdf.Pdf.new()

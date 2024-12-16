@@ -59,8 +59,10 @@ class PdfInputData:
 
             self.output_path += ".pdf"
 
-        if os.path.exists(self.output_path):
-            raise PdfInputError(f"Output file already exists: {self.output_path}")
+        if os.path.exists(self.output_path) and not (args.override_output_path):
+            raise PdfInputError(
+                f"Output file already exists: {self.output_path}. Use --override_output_path to overwrite."
+            )
 
 
 def process_inputs():
@@ -73,6 +75,12 @@ def process_inputs():
         help="Recursively search directories for input files.",
     )
     parser.add_argument("input_paths", nargs="+", help="Paths to the input PDFs.")
+    parser.add_argument(
+        "-o",
+        "--override_output_path",
+        action="store_true",
+        help="Override the output file if it exists",
+    )
 
     args = parser.parse_args()
 
