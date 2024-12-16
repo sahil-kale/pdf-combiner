@@ -43,6 +43,8 @@ class PdfCombiner:
             pdf.pages.extend(pdf_page.pages)
         pdf.save(self.output_path)
 
+        print(f"Combined PDFs saved to: {self.output_path}")
+
 
 def main():
     input_data = process_inputs()
