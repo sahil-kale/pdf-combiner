@@ -2,3 +2,4 @@ pytest
 pikepdf
 pillow
 black
+pyinstaller

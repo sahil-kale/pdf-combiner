@@ -3,7 +3,7 @@ import sys
 import os
 import argparse
 
-EXCLUDE_DIRS = [".vscode", "build", "pdf-combiner-venv"]
+EXCLUDE_DIRS = [".vscode", "build", "pdf-combiner-venv", "dist"]
 PYTHON_EXTENSION = ".py"
 
 # add the parent dir to os.sys.path so we can import the modules
