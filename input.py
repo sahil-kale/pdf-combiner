@@ -44,8 +44,20 @@ class PdfInputData:
 
         if args.output_path:
             self.output_path = args.output_path
+            # get the output path extension
+            _, output_extension = os.path.splitext(self.output_path)
+            if output_extension != ".pdf":
+                raise PdfInputError("Output file must be a PDF.")
         else:
-            self.output_path = f'combined_output_{"_".join(self.input_files)}.pdf'
+            self.output_path = os.path.join(os.getcwd(), "converted_output")
+
+            for path in self.input_files:
+                file_name = os.path.basename(path)
+                # remove the extension
+                file_name = file_name[: file_name.rfind(".")]
+                self.output_path += f"_{file_name}"
+
+            self.output_path += ".pdf"
 
         if os.path.exists(self.output_path):
             raise PdfInputError(f"Output file already exists: {self.output_path}")
@@ -63,5 +75,9 @@ def process_inputs():
     parser.add_argument("input_paths", nargs="+", help="Paths to the input PDFs.")
 
     args = parser.parse_args()
+
+    # make the output path absolute
+    if args.output_path:
+        args.output_path = os.path.abspath(args.output_path)
 
     return PdfInputData(args)

@@ -33,7 +33,11 @@ def test_no_output_file_means_current_dir_is_output_file():
 
     PdfInputData = input.PdfInputData(FakeArgs)
 
-    assert PdfInputData.output_path == f"combined_output_{input_names[0]}.pdf"
+    substring = (
+        f"converted_output_{os.path.basename(TEST_IMG[:TEST_IMG.rfind('.')])}.pdf"
+    )
+
+    assert substring in PdfInputData.output_path
 
 
 def test_recursive_dir_filtering():
@@ -113,3 +117,20 @@ def test_already_existing_output_file():
         assert True
 
     os.remove(fake_output_path)
+
+
+def test_output_path_is_not_pdf():
+    # create fake args object
+    input_names = [TEST_IMG]
+    fake_output_path = f"{TEST_PLAYGROUND}/output.txt"
+
+    class FakeArgs:
+        input_paths = input_names
+        output_path = fake_output_path
+        recursive = False
+
+    try:
+        PdfInputData = input.PdfInputData(FakeArgs)
+        assert False
+    except input.PdfInputError:
+        assert True
