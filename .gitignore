@@ -162,3 +162,4 @@ cython_debug/
 #.idea/
 
 pdf-combiner-venv/
+test_playground/

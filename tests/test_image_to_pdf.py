@@ -5,7 +5,7 @@ import os
 
 CURRENT_DIR = os.path.dirname(__file__)
 
-TEST_IMG = f"{CURRENT_DIR}/test_img.png"
+TEST_IMG = f"{CURRENT_DIR}/samples/test_img.png"
 
 
 def test_image_to_pdf():

@@ -1,10 +1,15 @@
-from util import *
 import subprocess
 import sys
+import os
 import argparse
 
 EXCLUDE_DIRS = [".vscode", "build", "pdf-combiner-venv"]
 PYTHON_EXTENSION = ".py"
+
+# add the parent dir to os.sys.path so we can import the modules
+parent_dir = os.path.abspath(os.path.join("scripts", os.pardir))
+os.sys.path.append(parent_dir)
+from util import get_files_with_extensions
 
 
 def python_fmt(dry_run=False):

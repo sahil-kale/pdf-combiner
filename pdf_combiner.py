@@ -1,11 +1,11 @@
-from input import process_inputs
+from input import process_inputs, PdfInputData
 import pikepdf
 
 
 class PdfCombiner:
-    def __init__(self, input_paths, output_path):
-        self.input_paths = input_paths
-        self.output_path = output_path
+    def __init__(self, input_data: PdfInputData):
+        self.input_paths = input_data.input_files
+        self.output_path = input_data.output_path
 
     def combine_pdfs(self):
         pdf = pikepdf.Pdf.new()
@@ -16,4 +16,4 @@ class PdfCombiner:
 
 
 if __name__ == "__main__":
-    process_inputs()
+    input_data = process_inputs()
