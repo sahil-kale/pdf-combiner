@@ -12,4 +12,4 @@ if __name__ == "__main__":
     # remove the dist directory if it exists
     shutil.rmtree(DEST_DIR, ignore_errors=True)
 
-    subprocess.run(["pyinstaller", *pyinstaller_args, "pdf_combiner.py"])
+    subprocess.run(["pyinstaller", *pyinstaller_args, "pdf_combiner/pdf_combiner.py"])
