@@ -29,7 +29,7 @@ def generate_installer():
         f"--distpath={DEST_DIR}",
     ]
 
-    subprocess.run(["pyinstaller", *pyinstaller_args, "pdf_util/pdf_util.py"])
+    subprocess.run(["pyinstaller", *pyinstaller_args, "pdf_utility/pdf_utility.py"])
 
 
 if __name__ == "__main__":
@@ -51,6 +51,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--upload_test", action="store_true", help="Upload the wheel to TestPyPI."
     )
+    parser.add_argument("--upload_dry_run", action="store_true", help="Dry run upload.")
 
     args = parser.parse_args()
 
@@ -63,16 +64,27 @@ if __name__ == "__main__":
     if not args.skip_wheel:
         generate_python_wheel(args)
 
-        if args.upload:
-            subprocess.run(["twine", "upload", f"{DEST_DIR}/*", "--verbose"])
-        elif args.upload_test:
-            subprocess.run(
-                [
-                    "twine",
-                    "upload",
-                    f"{DEST_DIR}/*",
-                    "--repository",
-                    "testpypi",
-                    "--verbose",
-                ]
-            )
+        upload_args = [
+            "twine",
+            "check" if args.upload_dry_run else "upload",
+            f"{DEST_DIR}/*",
+        ]
+
+        if not args.upload_dry_run:
+            upload_args.append("--verbose")
+
+        if args.upload_test:
+            upload_args.append("--repository")
+            upload_args.append("testpypi")
+
+        if args.upload or args.upload_test:
+            subprocess.run(upload_args)
+        else:
+            print("To upload the wheel to PyPI, use the --upload flag.")
+            print("To upload the wheel to TestPyPI, use the --upload_test flag.")
+            print("To perform a dry run upload, use the --upload_dry_run flag.")
+            print("To skip the upload, use the --skip_upload flag.")
+            print("To skip generating the wheel, use the --skip_wheel flag.")
+            print("To skip generating the installer, use the --skip_installer flag.")
+            print("To test the installation of the wheel, use the --test_install flag.")
+            print("To see this message again, use the --help flag.")

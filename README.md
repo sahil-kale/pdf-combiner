@@ -11,19 +11,19 @@ A simple command-line utility to combine multiple PDF/image files into a single 
 - File Size Reduction
 
 ## Installation
-Using pip: `pip install pdf_util`
+Using pip: `pip install pdf_utility`
 
-*Note: the shortcut `pdf_util` can be directly used, but sometimes pip shortcuts do not work on windows. In this case, the module can be run with `python -m pdf_util <args>`.*
+*Note: the shortcut `pdf_utility` can be directly used, but sometimes pip shortcuts do not work on windows. In this case, the module can be run with `python -m pdf_utility <args>`.*
 
 Using executable:
 - Download the executable artifact from the latest `Build Windows Executable` job
-- Execute the executable, ex: `path/to/pdf_util.exe --help`
+- Execute the executable, ex: `path/to/pdf_utility.exe --help`
 
 ## Usage
 Combine Specific Files
-To combine specific PDF files into a single output: `pdf_util --operation combine path/to/file1.pdf path/to/file2.png --output_path output.pdf`
+To combine specific PDF files into a single output: `pdf_utility --operation combine path/to/file1.pdf path/to/file2.png --output_path output.pdf`
 
 Combine All PDFs in a Folder
-To combine all PDF files in a specific folder: `pdf_util --operation combine -r path/to/folder --output_path output.pdf`
+To combine all PDF files in a specific folder: `pdf_utility --operation combine -r path/to/folder --output_path output.pdf`
 
 Note: images (.png, .jpg) are supported as file input

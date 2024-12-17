@@ -1,5 +1,5 @@
 import argparse
-from pdf_util import util
+from pdf_utility import util
 import os
 import click
 

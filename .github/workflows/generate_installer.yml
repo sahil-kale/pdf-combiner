@@ -23,5 +23,5 @@ jobs:
       - name: Upload Executable
         uses: actions/upload-artifact@v3
         with:
-          name: pdf_util-exe
-          path: dist/pdf_util.exe
+          name: pdf_utility-exe
+          path: dist/pdf_utility.exe
