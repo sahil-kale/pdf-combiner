@@ -1,161 +1,122 @@
-from pdf_utility.input import PdfInputData, PdfInputError
-import shutil
 import os
+import shutil
+import pytest
+from pdf_utility.input import PdfInputData, PdfInputError
 
+# Constants
 CURRENT_DIR = os.path.dirname(__file__)
-
 TEST_PLAYGROUND = f"{CURRENT_DIR}/test_playground"
 TEST_IMG = f"{CURRENT_DIR}/samples/test_img.png"
 
 
-def make_fake_dir(dir_name, files_to_fake_create=None):
-    shutil.rmtree(f"{TEST_PLAYGROUND}/{dir_name}", ignore_errors=True)
-    os.makedirs(f"{TEST_PLAYGROUND}/{dir_name}")
+# Reusable FakeArgs class
+class FakeArgs:
+    def __init__(
+        self,
+        input_paths,
+        output_path=None,
+        recursive=False,
+        override_output_path=False,
+    ):
+        self.input_paths = input_paths
+        self.output_path = output_path
+        self.recursive = recursive
+        self.override_output_path = override_output_path
 
-    if files_to_fake_create:
-        for name in files_to_fake_create:
-            with open(f"{TEST_PLAYGROUND}/{dir_name}/{name}", "w") as f:
+
+# Fixtures for setup and teardown
+@pytest.fixture(autouse=True)
+def clean_test_playground():
+    """Fixture to create and clean the test_playground directory."""
+    shutil.rmtree(TEST_PLAYGROUND, ignore_errors=True)
+    os.makedirs(TEST_PLAYGROUND)
+    yield
+    shutil.rmtree(TEST_PLAYGROUND, ignore_errors=True)
+
+
+# Utility Functions
+def make_fake_dir(name, files=None):
+    path = os.path.join(TEST_PLAYGROUND, name)
+    os.makedirs(path, exist_ok=True)
+    if files:
+        for file in files:
+            with open(os.path.join(path, file), "w") as f:
                 f.write("")
+    return path
 
 
-def delete_fake_dir(dir_name):
-    shutil.rmtree(f"{TEST_PLAYGROUND}/{dir_name}", ignore_errors=True)
-
-
+# Tests
 def test_no_output_file_means_current_dir_is_output_file():
-    # create fake args object
-    input_names = [TEST_IMG]
+    fake_args = FakeArgs(input_paths=[TEST_IMG])
+    input_data = PdfInputData(fake_args)
 
-    class FakeArgs:
-        input_paths = input_names
-        output_path = None
-        recursive = False
-        override_output_path = False
-
-    input_data = PdfInputData(FakeArgs)
-
-    substring = (
-        f"converted_output_{os.path.basename(TEST_IMG[:TEST_IMG.rfind('.')])}.pdf"
+    expected_substring = (
+        f"converted_output_{os.path.basename(TEST_IMG).rsplit('.', 1)[0]}.pdf"
     )
-
-    assert substring in input_data.output_path
+    assert expected_substring in input_data.output_path
 
 
 def test_recursive_dir_filtering():
-    # create fake args object
     input_names = ["input1.pdf", "input2.PDF", "input3.png"]
-    # create a fake directory with 2 files
-    fake_dir = f"{TEST_PLAYGROUND}/recursive_dir"
-    shutil.rmtree(fake_dir, ignore_errors=True)
+    fake_dir = make_fake_dir("recursive_dir", input_names)
 
-    os.makedirs(fake_dir)
+    fake_args = FakeArgs(
+        input_paths=[fake_dir], output_path="output.pdf", recursive=True
+    )
+    input_data = PdfInputData(fake_args)
 
-    for name in input_names:
-        with open(f"{fake_dir}/{name}", "w") as f:
-            f.write("")
-
-    class FakeArgs:
-        input_paths = [fake_dir]
-        output_path = "output.pdf"
-        recursive = True
-        override_output_path = False
-
-    input_data = PdfInputData(FakeArgs)
-
-    assert input_data.input_files == [f"{fake_dir}/{name}" for name in input_names]
-
-    shutil.rmtree(fake_dir, ignore_errors=True)
+    expected_files = [os.path.join(fake_dir, name) for name in input_names]
+    assert input_data.input_files == expected_files
 
 
 def test_passing_in_dir_without_recursive():
-    fake_dir = f"{TEST_PLAYGROUND}/non_recursive_dir"
-    shutil.rmtree(fake_dir, ignore_errors=True)
+    fake_dir = make_fake_dir("non_recursive_dir")
 
-    os.makedirs(fake_dir)
+    fake_args = FakeArgs(
+        input_paths=[fake_dir], output_path="output.pdf", recursive=False
+    )
 
-    class FakeArgs:
-        input_paths = [fake_dir]
-        output_path = "output.pdf"
-        recursive = False
-        override_output_path = False
-
-    # should raise a PdfInputError
-    try:
-        input_data = PdfInputData(FakeArgs)
-        assert False
-    except PdfInputError:
-        assert True
+    with pytest.raises(PdfInputError):
+        PdfInputData(fake_args)
 
 
 def test_file_not_existing():
-    class FakeArgs:
-        input_paths = ["non_existing_file.pdf"]
-        output_path = "output.pdf"
-        recursive = False
+    fake_args = FakeArgs(
+        input_paths=["non_existing_file.pdf"], output_path="output.pdf"
+    )
 
-    # should raise a PdfInputError
-    try:
-        input_data = PdfInputData(FakeArgs)
-        assert False
-    except PdfInputError:
-        assert True
+    with pytest.raises(PdfInputError):
+        PdfInputData(fake_args)
 
 
 def test_already_existing_output_file():
-    # create fake args object
-    input_names = [TEST_IMG]
-    fake_output_path = f"{TEST_PLAYGROUND}/output.pdf"
-    with open(fake_output_path, "w") as f:
-        f.write("")
+    fake_output = os.path.join(TEST_PLAYGROUND, "output.pdf")
+    with open(fake_output, "w") as f:
+        f.write("")  # Create fake output file
 
-    class FakeArgs:
-        input_paths = input_names
-        output_path = fake_output_path
-        recursive = False
-        override_output_path = False
+    fake_args = FakeArgs(input_paths=[TEST_IMG], output_path=fake_output)
 
-    try:
-        input_data = PdfInputData(FakeArgs)
-        assert False
-    except PdfInputError:
-        assert True
-
-    os.remove(fake_output_path)
+    with pytest.raises(PdfInputError):
+        PdfInputData(fake_args)
 
 
 def test_output_path_is_not_pdf():
-    # create fake args object
-    input_names = [TEST_IMG]
-    fake_output_path = f"{TEST_PLAYGROUND}/output.txt"
+    fake_output = os.path.join(TEST_PLAYGROUND, "output.txt")
 
-    class FakeArgs:
-        input_paths = input_names
-        output_path = fake_output_path
-        recursive = False
-        override_output_path = False
+    fake_args = FakeArgs(input_paths=[TEST_IMG], output_path=fake_output)
 
-    try:
-        input_data = PdfInputData(FakeArgs)
-        assert False
-    except PdfInputError:
-        assert True
+    with pytest.raises(PdfInputError):
+        PdfInputData(fake_args)
 
 
 def test_arg_override_for_output_path():
-    # create fake args object
-    input_names = [TEST_IMG]
-    fake_output_path = f"{TEST_PLAYGROUND}/output.pdf"
+    fake_output = os.path.join(TEST_PLAYGROUND, "output.pdf")
+    with open(fake_output, "w") as f:
+        f.write("")  # Create fake output file
 
-    # make the output file
-    with open(fake_output_path, "w") as f:
-        f.write("")
+    fake_args = FakeArgs(
+        input_paths=[TEST_IMG], output_path=fake_output, override_output_path=True
+    )
+    input_data = PdfInputData(fake_args)
 
-    class FakeArgs:
-        input_paths = input_names
-        output_path = fake_output_path
-        recursive = False
-        override_output_path = True
-
-    input_data = PdfInputData(FakeArgs)
-
-    assert input_data.output_path == fake_output_path
+    assert input_data.output_path == fake_output
