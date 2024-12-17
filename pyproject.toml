@@ -3,12 +3,12 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pdf_combiner"
+name = "pdf_util"
 version = "0.0.3"
 authors = [
   { name="Sahil Kale" },
 ]
-description = "PDF Combining Utility"
+description = "PDF Manipulation Utilities"
 readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [
@@ -19,11 +19,11 @@ dependencies = [
 license = { text = "Prosperity 3.0.0" }
 
 [project.urls]
-Homepage = "https://github.com/sahil-kale/pdf-combiner"
-Issues = "https://github.com/sahil-kale/pdf-combiner/issues"
+Homepage = "https://github.com/sahil-kale/pdf-util"
+Issues = "https://github.com/sahil-kale/pdf-util/issues"
 
 [project.scripts]
-pdf_combiner = "pdf_combiner.pdf_combiner:main"
+pdf_util = "pdf_util.pdf_util:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

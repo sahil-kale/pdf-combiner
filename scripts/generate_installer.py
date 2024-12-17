@@ -29,7 +29,7 @@ def generate_installer():
         f"--distpath={DEST_DIR}",
     ]
 
-    subprocess.run(["pyinstaller", *pyinstaller_args, "pdf_combiner/pdf_combiner.py"])
+    subprocess.run(["pyinstaller", *pyinstaller_args, "pdf_util/pdf_util.py"])
 
 
 if __name__ == "__main__":

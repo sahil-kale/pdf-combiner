@@ -1,4 +1,4 @@
-from .pdf_combiner import main
+from .pdf_util import main
 
 if __name__ == "__main__":
     main()

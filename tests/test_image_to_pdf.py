@@ -1,4 +1,4 @@
-from pdf_combiner import image_to_pdf
+from pdf_util import image_to_pdf
 
 # get the current directory
 import os

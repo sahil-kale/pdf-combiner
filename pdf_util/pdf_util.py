@@ -1,5 +1,5 @@
-from pdf_combiner.image_to_pdf import image_to_pdf
-from pdf_combiner.input import process_inputs, PdfInputData
+from pdf_util.image_to_pdf import image_to_pdf
+from pdf_util.input import process_inputs, PdfInputData
 import pikepdf
 import os
 import click
@@ -55,7 +55,7 @@ def main():
     PdfCombiner(input_data)
     click.secho("Finished Execution", fg="green")
     click.secho(
-        "Consider giving the project a star on GitHub if you found it useful!\nhttps://github.com/sahil-kale/pdf-combiner/ ✨",
+        "Consider giving the project a star on GitHub if you found it useful!\nhttps://github.com/sahil-kale/pdf-util/ ✨",
         fg="magenta",
     )
 

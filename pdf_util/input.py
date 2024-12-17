@@ -1,5 +1,5 @@
 import argparse
-from pdf_combiner import util
+from pdf_util import util
 import os
 import click
 
@@ -10,6 +10,10 @@ INPUT_EXTENSIONS = (
     ".jpeg",
     ".PDF",
 )
+
+SUPPORTED_OPERATIONS = {
+    "combine": "Combine multiple PDFs into one.",
+}
 
 
 class PdfInputError(Exception):
@@ -72,7 +76,21 @@ class PdfInputData:
 
 
 def process_inputs():
-    parser = argparse.ArgumentParser(description="Combine multiple PDFs into one.")
+    parser = argparse.ArgumentParser(
+        description="PDF utility for perfoming common operations on PDFs."
+    )
+
+    supported_operation_message = "\nSupported operations:\n"
+    for operation, description in SUPPORTED_OPERATIONS.items():
+        supported_operation_message += f"\n{operation}: {description}\n"
+
+    parser.add_argument(
+        "--operation",
+        choices=SUPPORTED_OPERATIONS.keys(),
+        help=f"The operation to perform on the input files. {supported_operation_message}",
+        required=True,
+    )
+
     parser.add_argument("-o", "--output_path", help="Path to the output PDF.")
     parser.add_argument(
         "-r",

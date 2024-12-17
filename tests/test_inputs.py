@@ -1,4 +1,4 @@
-from pdf_combiner.input import PdfInputData, PdfInputError
+from pdf_util.input import PdfInputData, PdfInputError
 import shutil
 import os
 
