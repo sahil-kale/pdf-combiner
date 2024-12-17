@@ -2,10 +2,13 @@
 A simple command-line utility to combine multiple PDF/image files into a single PDF.
 
 ## Features
-Combine individual PDF files or entire folders of PDFs.
-Support for recursive folder traversal.
-Specify custom output file paths.
-Works as a CLI tool for seamless integration into your workflows.
+- Combine individual PDF files or entire folders of PDFs.
+- Support for recursive folder traversal.
+- Specify custom output file paths.
+- Works as a CLI tool for seamless integration into your workflows.
+
+### Coming Soon
+- File Size Reduction
 
 ## Installation
 Using pip: `pip install pdf_util`
