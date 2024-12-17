@@ -10,6 +10,8 @@ Works as a CLI tool for seamless integration into your workflows.
 ## Installation
 Using pip: `pip install pdf_combiner`
 
+*Note: the shortcut `pdf_combiner` can be directly used, but sometimes pip shortcuts do not work on windows. In this case, the module can be run with `python -m pdf_combiner <args>`.*
+
 Using executable:
 - Download the executable artifact from the latest `Build Windows Executable` job
 - Execute the executable, ex: `path/to/pdf_combiner.exe --help`

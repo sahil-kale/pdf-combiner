@@ -48,6 +48,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "--upload", action="store_true", help="Upload the wheel to PyPI."
     )
+    parser.add_argument(
+        "--upload_test", action="store_true", help="Upload the wheel to TestPyPI."
+    )
 
     args = parser.parse_args()
 
@@ -62,3 +65,14 @@ if __name__ == "__main__":
 
         if args.upload:
             subprocess.run(["twine", "upload", f"{DEST_DIR}/*", "--verbose"])
+        elif args.upload_test:
+            subprocess.run(
+                [
+                    "twine",
+                    "upload",
+                    f"{DEST_DIR}/*",
+                    "--repository",
+                    "testpypi",
+                    "--verbose",
+                ]
+            )

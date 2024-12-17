@@ -13,7 +13,9 @@ INPUT_EXTENSIONS = (
 
 
 class PdfInputError(Exception):
-    pass
+    def __str__(self):
+        # Apply click styling only when the exception is explicitly printed
+        return click.style(self.args[0], fg="red", bold=False)
 
 
 class PdfInputData:
@@ -38,7 +40,7 @@ class PdfInputData:
             for path in self.input_files:
                 if os.path.isdir(path):
                     raise PdfInputError(
-                        f"Invalid input path - is directory! Use -r option: {path}"
+                        f"Invalid input path - {path} is directory!\nUse -r option to select all files in the directory."
                     )
                 elif not os.path.exists(path):
                     raise PdfInputError(f"Invalid input path - does not exist: {path}")
@@ -62,7 +64,7 @@ class PdfInputData:
 
         if os.path.exists(self.output_path) and not (args.override_output_path):
             raise PdfInputError(
-                f"Output file already exists: {self.output_path}. Use --override_output_path to overwrite."
+                f"\nOutput file already exists: {self.output_path}.\n Use --override_output_path to overwrite."
             )
 
         input_files_printable = ", ".join(self.input_files)
