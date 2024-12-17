@@ -25,6 +25,7 @@ class PdfInputError(Exception):
 class PdfInputData:
     def __init__(self, args):
         self.recursive = args.recursive
+        self.compress = args.compress if hasattr(args, "compress") else False
 
         if self.recursive:
             self.input_files = []
@@ -103,6 +104,12 @@ def process_inputs():
         "--override_output_path",
         action="store_true",
         help="Override the output file if it exists",
+    )
+
+    parser.add_argument(
+        "--compress",
+        action="store_true",
+        help="Compress the output PDF.",
     )
 
     args = parser.parse_args()

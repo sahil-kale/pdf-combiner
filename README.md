@@ -6,9 +6,7 @@ A simple command-line utility to combine multiple PDF/image files into a single 
 - Support for recursive folder traversal.
 - Specify custom output file paths.
 - Works as a CLI tool for seamless integration into your workflows.
-
-### Coming Soon
-- File Size Reduction
+- File Size Reduction.
 
 ## Installation
 Using pip: `pip install pdf_utility`
@@ -25,5 +23,8 @@ To combine specific PDF files into a single output: `pdf_utility --operation com
 
 Combine All PDFs in a Folder
 To combine all PDF files in a specific folder: `pdf_utility --operation combine -r path/to/folder --output_path output.pdf`
+
+Compressing PDF
+`pdf_utility <args> --compress`
 
 Note: images (.png, .jpg) are supported as file input

@@ -7,6 +7,7 @@ import click
 
 class PdfCombiner:
     def __init__(self, input_data: PdfInputData):
+        self.input_args = input_data
         self.input_paths = input_data.input_files
         self.output_path = input_data.output_path
         self.tmp_paths = []
@@ -45,7 +46,8 @@ class PdfCombiner:
         for path in self.input_paths:
             pdf_page = pikepdf.open(path)
             pdf.pages.extend(pdf_page.pages)
-        pdf.save(self.output_path)
+
+        pdf.save(self.output_path, compress_streams=self.input_args.compress)
 
         click.secho(f"PDFs combined into {self.output_path}", fg="green")
 
@@ -55,7 +57,7 @@ def main():
     PdfCombiner(input_data)
     click.secho("Finished Execution", fg="green")
     click.secho(
-        "Consider giving the project a star on GitHub if you found it useful!\nhttps://github.com/sahil-kale/pdf-util/ ✨",
+        "Consider giving the project a star on GitHub if you found it useful!\nhttps://github.com/sahil-kale/pdf-utility/ ✨",
         fg="magenta",
     )
 

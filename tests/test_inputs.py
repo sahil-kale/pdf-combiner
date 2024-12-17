@@ -22,6 +22,7 @@ class FakeArgs:
         self.output_path = output_path
         self.recursive = recursive
         self.override_output_path = override_output_path
+        self.compress = False
 
 
 # Fixtures for setup and teardown
