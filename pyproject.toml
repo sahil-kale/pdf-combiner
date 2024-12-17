@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pdf_utilityity"
-version = "0.0.2"
+name = "pdf_utility"
+version = "0.0.3"
 authors = [
   { name="Sahil Kale" },
 ]
@@ -19,8 +19,8 @@ dependencies = [
 license = { text = "Prosperity 3.0.0" }
 
 [project.urls]
-Homepage = "https://github.com/sahil-kale/pdf-util"
-Issues = "https://github.com/sahil-kale/pdf-util/issues"
+Homepage = "https://github.com/sahil-kale/pdf-utility"
+Issues = "https://github.com/sahil-kale/pdf-utility/issues"
 
 [project.scripts]
 pdf_utility = "pdf_utility.pdf_utility:main"
